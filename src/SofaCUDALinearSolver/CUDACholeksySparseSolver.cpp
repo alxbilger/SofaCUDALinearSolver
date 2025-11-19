@@ -22,6 +22,8 @@
 #define SOFA_PLUGIN_CUDASPARSECHOLESKYSOLVER_CPP
 #include <SofaCUDALinearSolver/CUDACholeksySparseSolver.inl>
 #include <sofa/component/linearsolver/iterative/MatrixLinearSolver.inl>
+#include <sofa/component/linearsystem/MatrixProjectionMethod.inl>
+#include <sofa/component/linearsystem/MappedMassMatrixObserver.inl>
 #include <sofa/core/ObjectFactory.h>
 
 namespace sofa::component::linearsolver::direct
@@ -37,6 +39,8 @@ int CUDASparseCholeskySolverClass = core::RegisterObject("Direct linear solver b
 ;
 
 using OtherFloatingType = std::conditional_t<std::is_same_v<SReal, double>, float, double>;
+template struct SOFACUDALINEARSOLVER_API sofa::component::linearsystem::MappedMassMatrixObserver<OtherFloatingType>;
+template class SOFACUDALINEARSOLVER_API sofa::component::linearsystem::MatrixProjectionMethod<sofa::linearalgebra::CompressedRowSparseMatrix<OtherFloatingType> >;
 template class SOFACUDALINEARSOLVER_API sofa::component::linearsolver::MatrixLinearSolver< CompressedRowSparseMatrix<OtherFloatingType>,FullVector<OtherFloatingType> > ;
 template class SOFACUDALINEARSOLVER_API sofa::component::linearsolver::MatrixLinearSolver< CompressedRowSparseMatrix<sofa::type::Mat<3, 3, OtherFloatingType> >,FullVector<OtherFloatingType> > ;
 
